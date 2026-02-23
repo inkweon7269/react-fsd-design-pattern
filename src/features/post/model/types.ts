@@ -7,3 +7,9 @@ export interface CreatePostDto {
 export interface CreatePostResponse {
   id: number;
 }
+
+export interface UpdatePostDto {
+  title: string;
+  content: string;
+  isPublished: boolean;
+}

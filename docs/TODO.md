@@ -66,7 +66,7 @@
 
 ---
 
-## Phase 3: Features Layer — Post
+## Phase 3: Features Layer — Post (생성)
 
 ### model
 
@@ -79,11 +79,39 @@
 
 ### ui
 
-- [ ] `src/features/post/ui/create-post-form.tsx` — react-hook-form + zod + shadcn 통합 폼
+- [ ] `src/features/post/ui/create-post-form.tsx` — react-hook-form + yup + shadcn 통합 폼
 
 ### public api
 
 - [ ] `src/features/post/index.ts` — 폼 컴포넌트, 타입 export
+
+---
+
+## Phase 3-1: Features Layer — Post (수정/삭제)
+
+### shadcn 컴포넌트 추가
+
+- [ ] `alert-dialog` 컴포넌트 설치 (`pnpm dlx shadcn@latest add alert-dialog`)
+- [ ] `src/shared/ui/index.ts` — AlertDialog 관련 컴포넌트 re-export 추가
+
+### model
+
+- [ ] `src/features/post/model/types.ts` — UpdatePostDto 타입 추가
+- [ ] `src/features/post/model/update-post-schema.ts` — Yup 수정 폼 유효성 검증 스키마
+
+### api
+
+- [ ] `src/features/post/api/use-update-post.ts` — useUpdatePost() mutation 훅 (상세+목록 캐시 무효화)
+- [ ] `src/features/post/api/use-delete-post.ts` — useDeletePost() mutation 훅 (목록 캐시 무효화)
+
+### ui
+
+- [ ] `src/features/post/ui/update-post-form.tsx` — 수정 폼 (기존 데이터 defaultValues로 반영)
+- [ ] `src/features/post/ui/delete-post-button.tsx` — 삭제 버튼 + AlertDialog 확인 다이얼로그
+
+### public api
+
+- [ ] `src/features/post/index.ts` — UpdatePostForm, DeletePostButton, UpdatePostDto 등 export 추가
 
 ---
 
@@ -110,6 +138,15 @@
 
 ---
 
+## Phase 5-1: Pages Layer — 수정/삭제 확장
+
+- [ ] `src/pages/post/ui/post-edit-page.tsx` — 게시물 수정 페이지 (`/posts/:id/edit`, usePost로 기존 데이터 로드)
+- [ ] `src/pages/post/ui/post-detail-page.tsx` — Edit 버튼, DeletePostButton 추가
+- [ ] `src/pages/post/index.ts` — PostEditPage export 추가
+- [ ] `src/app/router/router.tsx` — `/posts/$postId/edit` 라우트 추가
+
+---
+
 ## Phase 6: App Layer
 
 - [ ] `src/app/providers/query-provider.tsx` — QueryClientProvider 래퍼
@@ -132,7 +169,7 @@
 - [ ] `pnpm build` 실행 시 프로덕션 빌드 성공 확인
 - [ ] `pnpm lint` 실행 시 린트 에러 없음 확인
 
-### 기능 검증
+### 기능 검증 — 조회/생성
 
 - [ ] NestJS 서버(`56-nest-repository-pattern`)를 `localhost:3000`에서 실행
 - [ ] `/posts` — 게시물 목록이 카드로 정상 출력되는지 확인
@@ -144,6 +181,19 @@
 - [ ] `/posts/:id` — 게시물 상세 내용 정상 표시 확인
 - [ ] `/posts/:id` — "목록으로" 버튼 클릭 시 목록 페이지 이동 확인
 - [ ] `/` — 루트 경로 접근 시 `/posts`로 리다이렉트 확인
+
+### 기능 검증 — 수정/삭제
+
+- [ ] `/posts/:id` — Edit 버튼, Delete 버튼이 표시되는지 확인
+- [ ] `/posts/:id` — Edit 버튼 클릭 시 `/posts/:id/edit` 페이지로 이동 확인
+- [ ] `/posts/:id/edit` — 기존 게시물 데이터가 폼에 자동 반영되는지 확인
+- [ ] `/posts/:id/edit` — 빈 필드 제출 시 유효성 검증 에러 표시 확인
+- [ ] `/posts/:id/edit` — 수정 후 제출 시 상세 페이지 이동 + 변경 내용 반영 확인
+- [ ] `/posts/:id/edit` — API 호출 중 "Updating..." 버튼 비활성화 확인
+- [ ] `/posts/:id` — Delete 버튼 클릭 시 확인 다이얼로그 표시 확인
+- [ ] `/posts/:id` — 다이얼로그 취소 버튼 클릭 시 아무 일도 일어나지 않는지 확인
+- [ ] `/posts/:id` — 다이얼로그 확인 버튼 클릭 시 삭제 후 목록 페이지 이동 확인
+- [ ] `/posts/:id` — 삭제 후 목록에서 해당 게시물이 사라졌는지 확인
 
 ### FSD 규칙 검증
 

@@ -5,7 +5,12 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { RootLayout } from "../layouts/root-layout";
-import { PostListPage, PostDetailPage, PostCreatePage } from "@/pages/post";
+import {
+  PostListPage,
+  PostDetailPage,
+  PostCreatePage,
+  PostEditPage,
+} from "@/pages/post";
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -37,10 +42,17 @@ const postDetailRoute = createRoute({
   component: PostDetailPage,
 });
 
+const postEditRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/posts/$postId/edit",
+  component: PostEditPage,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   postsListRoute,
   createPostRoute,
+  postEditRoute,
   postDetailRoute,
 ]);
 
