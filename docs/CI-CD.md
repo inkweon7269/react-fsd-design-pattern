@@ -28,7 +28,7 @@ pnpm test:e2e      # Playwright E2E
 
 E2E 테스트는 Playwright가 실제 브라우저를 열고 Vite dev 서버(`localhost:5173`)에 접속한다. Vite dev 서버는 `/api` 요청을 `localhost:3000`으로 프록시한다.
 
-```
+```text
 Playwright → 브라우저 → Vite dev 서버(:5173) → proxy → 백엔드 API(:3000)
 ```
 
@@ -62,7 +62,7 @@ concurrency:
 
 ### Job 구성
 
-```
+```text
 PR / push
     │
     ├── Job 1: lint (병렬)
@@ -341,7 +341,7 @@ E2E 테스트에서도 MSW를 사용하려면 다음 작업이 필요하다:
 
 ### 워크플로우 구조
 
-```
+```text
 main 브랜치 머지
     │
     ├── CI 통과 (lint + test + build)
@@ -487,7 +487,7 @@ deploy:
 
 ## 6. 전체 흐름 요약
 
-```
+```text
 개발자
   │
   ├── feature 브랜치에서 작업
@@ -496,8 +496,8 @@ deploy:
   │     ├── CI 자동 실행 (lint + test + build)
   │     ├── Coverage 리포트 → PR 코멘트
   │     ├── PR Auto Label → FSD 레이어 라벨 자동 부여
-  │     ├── Dependency Audit → 보안 감사
-  │     │     ├── 실패 → PR에 체크 표시, 머지 차단
+  │     ├── Dependency Audit → 보안 감사 (non-blocking, continue-on-error)
+  │     │     ├── 실패 → PR에 경고 표시 (머지 차단하지 않음)
   │     │     └── 통과 → 코드 리뷰 후 머지
   │     └── (Dependabot → 주간 의존성 업데이트 PR 자동 생성)
   │
