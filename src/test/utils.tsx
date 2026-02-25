@@ -22,17 +22,6 @@ interface WrapperProps {
   children: React.ReactNode;
 }
 
-export function createWrapper() {
-  const queryClient = createTestQueryClient();
-  return function Wrapper({ children }: WrapperProps) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    );
-  };
-}
-
 export function renderWithProviders(
   ui: ReactElement,
   options?: Omit<RenderOptions, "wrapper">,

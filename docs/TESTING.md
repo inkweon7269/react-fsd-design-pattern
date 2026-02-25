@@ -84,7 +84,7 @@ export default defineConfig({
   "compilerOptions": {
     "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test/**/*.ts"]
+  "include": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test/**/*.ts", "src/test/**/*.tsx"]
 }
 ```
 
@@ -133,7 +133,7 @@ export default defineConfig({
 
 ### 디렉토리 구조
 
-```
+```text
 src/test/
 ├── setup.ts              # 글로벌 설정 (jest-dom + MSW 라이프사이클)
 ├── utils.tsx             # 커스텀 렌더, QueryClient 래퍼
@@ -1267,7 +1267,7 @@ Playwright로 실제 브라우저에서 사용자 흐름을 검증한다.
 
 ### 디렉토리 구조
 
-```
+```text
 e2e/
 ├── fixtures/
 │   └── test-base.ts          # 공통 헬퍼
@@ -1284,23 +1284,42 @@ e2e/
 ```ts
 import { type Page, expect } from "@playwright/test";
 
+/** Navigate to the post list page and wait for posts to load */
 export async function navigateToPostList(page: Page) {
   await page.goto("/posts");
-  await page.waitForSelector("[data-testid='post-card'], text=No posts found");
+  // Wait for loading to finish — either post cards appear or empty state
+  await page.waitForSelector('[data-slot="skeleton"], h1:has-text("Posts")', {
+    state: "attached",
+  });
+  // Wait for skeletons to disappear (loading complete)
+  const skeleton = page.locator('[data-slot="skeleton"]').first();
+  if ((await skeleton.count()) > 0) {
+    await skeleton.waitFor({ state: "detached", timeout: 10000 });
+  }
 }
 
+/** Create a new post via the create form */
 export async function createPost(
   page: Page,
-  data: { title: string; content: string; isPublished?: boolean },
+  {
+    title,
+    content,
+    isPublished = false,
+  }: {
+    title: string;
+    content: string;
+    isPublished?: boolean;
+  },
 ) {
   await page.goto("/posts/create");
-  await page.fill('[name="title"]', data.title);
-  await page.fill("textarea", data.content);
-  if (data.isPublished) {
-    await page.click("role=switch");
+  await page.getByLabel(/title/i).fill(title);
+  await page.getByLabel(/content/i).fill(content);
+
+  if (isPublished) {
+    await page.getByRole("switch").click();
   }
-  await page.click("button:has-text('Create Post')");
-  await expect(page.locator("h2")).toContainText(data.title);
+
+  await page.getByRole("button", { name: /create post/i }).click();
 }
 ```
 
@@ -1520,7 +1539,7 @@ pnpm vitest run --grep "createPostSchema"
 
 ### 구현 순서 (권장)
 
-```
+```text
 Phase 1  인프라 설정 (패키지 설치 + 설정 파일 + 유틸리티)
 Phase 2  단위 테스트 (ApiError, cn, QueryKeys, Schemas)
 Phase 3  API Client 단위 테스트

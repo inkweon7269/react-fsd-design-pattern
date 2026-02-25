@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { renderWithProviders, screen, waitFor } from "@/test/utils";
+import { renderWithProviders, screen, waitFor, within } from "@/test/utils";
 import { DeletePostButton } from "./delete-post-button";
 
 describe("DeletePostButton", () => {
@@ -29,9 +29,10 @@ describe("DeletePostButton", () => {
     });
 
     // Click the "Delete" button inside the alert dialog
-    const buttons = screen.getAllByRole("button", { name: /delete/i });
-    const dialogDeleteBtn = buttons[buttons.length - 1];
-    await user.click(dialogDeleteBtn);
+    const { getByRole: getByRoleInDialog } = within(
+      screen.getByRole("alertdialog"),
+    );
+    await user.click(getByRoleInDialog("button", { name: /delete/i }));
 
     await waitFor(() => {
       expect(onSuccess).toHaveBeenCalled();

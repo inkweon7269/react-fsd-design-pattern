@@ -61,9 +61,8 @@ describe("CreatePostForm", () => {
 
     await waitFor(() => {
       expect(onSuccess).toHaveBeenCalled();
+      expect(screen.getByLabelText(/title/i)).toHaveValue("");
+      expect(screen.getByLabelText(/content/i)).toHaveValue("");
     });
-
-    expect(screen.getByLabelText(/title/i)).toHaveValue("");
-    expect(screen.getByLabelText(/content/i)).toHaveValue("");
   });
 });

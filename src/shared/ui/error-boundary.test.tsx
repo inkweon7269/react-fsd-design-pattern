@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { useState, useImperativeHandle, forwardRef } from "react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ErrorBoundary } from "./error-boundary";
@@ -14,6 +14,10 @@ function ThrowingComponent({ shouldThrow }: { shouldThrow: boolean }) {
 describe("ErrorBoundary", () => {
   beforeEach(() => {
     vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("renders default fallback UI when child throws", () => {
@@ -43,25 +47,26 @@ describe("ErrorBoundary", () => {
 
   it("resets error state when Try again is clicked", async () => {
     const user = userEvent.setup();
-    let triggerFix: () => void;
-
-    function TestWrapper() {
+    const TestWrapper = forwardRef<{ fix: () => void }>((_props, ref) => {
       const [shouldThrow, setShouldThrow] = useState(true);
-      // eslint-disable-next-line react-hooks/globals
-      triggerFix = () => setShouldThrow(false);
+      useImperativeHandle(ref, () => ({
+        fix: () => setShouldThrow(false),
+      }));
       return (
         <ErrorBoundary>
           <ThrowingComponent shouldThrow={shouldThrow} />
         </ErrorBoundary>
       );
-    }
+    });
+    TestWrapper.displayName = "TestWrapper";
 
-    render(<TestWrapper />);
+    const ref = { current: null } as React.RefObject<{ fix: () => void } | null>;
+    render(<TestWrapper ref={ref} />);
 
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();
 
     // Fix the component so it won't throw on next render
-    act(() => triggerFix());
+    act(() => ref.current?.fix());
 
     await user.click(screen.getByRole("button", { name: /try again/i }));
 
