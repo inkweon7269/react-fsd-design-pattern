@@ -1,0 +1,39 @@
+shared:
+  - changed-files:
+      - any-glob-to-any-file: "src/shared/**"
+
+entities:
+  - changed-files:
+      - any-glob-to-any-file: "src/entities/**"
+
+features:
+  - changed-files:
+      - any-glob-to-any-file: "src/features/**"
+
+widgets:
+  - changed-files:
+      - any-glob-to-any-file: "src/widgets/**"
+
+pages:
+  - changed-files:
+      - any-glob-to-any-file: "src/pages/**"
+
+app:
+  - changed-files:
+      - any-glob-to-any-file: "src/app/**"
+
+test:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/**/*.test.*"
+          - "e2e/**"
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "*.md"
+          - "docs/**"
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: ".github/**"

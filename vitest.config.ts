@@ -16,5 +16,11 @@ export default defineConfig({
     css: false,
     testTimeout: 10000,
     include: ["src/**/*.test.{ts,tsx}"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "json-summary"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: ["src/test/**", "src/**/*.test.{ts,tsx}", "src/main.tsx"],
+    },
   },
 });
