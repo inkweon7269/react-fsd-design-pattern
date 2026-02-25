@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Test artifacts
+test-results/
+playwright-report/
+
 # Claude Code
 .claude/
 .mcp.json
