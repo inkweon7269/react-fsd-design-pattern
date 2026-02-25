@@ -24,6 +24,7 @@ export {
   FormMessage,
   useFormField,
 } from "./form";
+export { ErrorBoundary } from "./error-boundary";
 export {
   AlertDialog,
   AlertDialogAction,

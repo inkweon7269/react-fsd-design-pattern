@@ -4,7 +4,7 @@ import { DeletePostButton } from "@/features/post";
 import { Button, Skeleton } from "@/shared/ui";
 
 export function PostDetailPage() {
-  const { postId } = useParams({ strict: false }) as { postId: string };
+  const { postId } = useParams({ from: "/posts/$postId" });
   const navigate = useNavigate();
   const { data: post, isLoading, isError, error } = usePost(Number(postId));
 

@@ -6,11 +6,3 @@ export type {
   CreatePostResponse,
   UpdatePostDto,
 } from "./model/types";
-export {
-  createPostSchema,
-  type CreatePostFormValues,
-} from "./model/create-post-schema";
-export {
-  updatePostSchema,
-  type UpdatePostFormValues,
-} from "./model/update-post-schema";

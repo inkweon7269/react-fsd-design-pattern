@@ -1,1 +1,1 @@
-export type { PaginatedResponse, PaginationParams } from "./pagination";
+export type { PaginatedResponse } from "./pagination";

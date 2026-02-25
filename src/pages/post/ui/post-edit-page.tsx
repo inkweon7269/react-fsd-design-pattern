@@ -4,7 +4,7 @@ import { UpdatePostForm } from "@/features/post";
 import { Button, Card, CardContent, CardHeader, CardTitle, Skeleton } from "@/shared/ui";
 
 export function PostEditPage() {
-  const { postId } = useParams({ strict: false }) as { postId: string };
+  const { postId } = useParams({ from: "/posts/$postId/edit" });
   const navigate = useNavigate();
   const id = Number(postId);
   const { data: post, isLoading, isError, error } = usePost(id);

@@ -33,7 +33,7 @@ export async function apiClient<T>(
   const response = await fetch(url, {
     method,
     headers: {
-      "Content-Type": "application/json",
+      ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
       ...headers,
     },
     ...(body !== undefined ? { body: JSON.stringify(body) } : {}),

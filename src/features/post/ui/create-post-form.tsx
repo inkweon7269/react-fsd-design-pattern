@@ -35,10 +35,13 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
     },
   });
 
-  async function onSubmit(values: CreatePostFormValues) {
-    const result = await createPost.mutateAsync(values);
-    form.reset();
-    onSuccess?.(result.id);
+  function onSubmit(values: CreatePostFormValues) {
+    createPost.mutate(values, {
+      onSuccess: (result) => {
+        form.reset();
+        onSuccess?.(result.id);
+      },
+    });
   }
 
   return (

@@ -37,9 +37,15 @@ export function UpdatePostForm({
     defaultValues,
   });
 
-  async function onSubmit(values: UpdatePostFormValues) {
-    await updatePost.mutateAsync({ id: postId, dto: values });
-    onSuccess?.();
+  function onSubmit(values: UpdatePostFormValues) {
+    updatePost.mutate(
+      { id: postId, dto: values },
+      {
+        onSuccess: () => {
+          onSuccess?.();
+        },
+      },
+    );
   }
 
   return (

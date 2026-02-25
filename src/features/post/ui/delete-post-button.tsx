@@ -20,9 +20,12 @@ interface DeletePostButtonProps {
 export function DeletePostButton({ postId, onSuccess }: DeletePostButtonProps) {
   const deletePost = useDeletePost();
 
-  async function handleDelete() {
-    await deletePost.mutateAsync(postId);
-    onSuccess?.();
+  function handleDelete() {
+    deletePost.mutate(postId, {
+      onSuccess: () => {
+        onSuccess?.();
+      },
+    });
   }
 
   return (

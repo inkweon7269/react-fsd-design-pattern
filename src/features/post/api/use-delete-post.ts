@@ -13,10 +13,9 @@ export function useDeletePost() {
 
   return useMutation({
     mutationFn: deletePost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: postQueryKeys.lists(),
-      });
+    onSuccess: (_data, postId) => {
+      queryClient.removeQueries({ queryKey: postQueryKeys.detail(postId) });
+      queryClient.invalidateQueries({ queryKey: postQueryKeys.lists() });
     },
   });
 }
