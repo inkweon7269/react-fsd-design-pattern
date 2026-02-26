@@ -88,6 +88,8 @@ lint:
   steps:
     - uses: actions/checkout@v4
     - uses: pnpm/action-setup@v4
+      with:
+        standalone: true
     - uses: actions/setup-node@v4
       with:
         node-version-file: ".nvmrc"
@@ -104,6 +106,8 @@ test:
   steps:
     - uses: actions/checkout@v4
     - uses: pnpm/action-setup@v4
+      with:
+        standalone: true
     - uses: actions/setup-node@v4
       with:
         node-version-file: ".nvmrc"
@@ -123,6 +127,8 @@ build:
   steps:
     - uses: actions/checkout@v4
     - uses: pnpm/action-setup@v4
+      with:
+        standalone: true
     - uses: actions/setup-node@v4
       with:
         node-version-file: ".nvmrc"
@@ -156,6 +162,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
+  contents: read
   pull-requests: write
 
 jobs:
@@ -164,6 +171,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
+        with:
+          standalone: true
       - uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
@@ -235,8 +244,8 @@ on:
     - cron: "0 0 * * 1" # 매주 월요일 00:00 UTC (09:00 KST)
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'schedule' }}
 
 jobs:
   audit:
@@ -245,6 +254,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
+        with:
+          standalone: true
       - uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
@@ -309,6 +320,8 @@ e2e:
   steps:
     - uses: actions/checkout@v4
     - uses: pnpm/action-setup@v4
+      with:
+        standalone: true
     - uses: actions/setup-node@v4
       with:
         node-version-file: ".nvmrc"

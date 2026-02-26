@@ -319,18 +319,6 @@ interface WrapperProps {
   children: React.ReactNode;
 }
 
-// renderHook 용 래퍼
-export function createWrapper() {
-  const queryClient = createTestQueryClient();
-  return function Wrapper({ children }: WrapperProps) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    );
-  };
-}
-
 // 컴포넌트 렌더 용 (userEvent + queryClient 포함)
 export function renderWithProviders(
   ui: ReactElement,
@@ -683,8 +671,17 @@ React 컴포넌트, 훅, MSW를 결합하여 검증한다.
 ```tsx
 import { describe, it, expect } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
-import { createWrapper } from "@/test/utils";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePosts } from "./use-posts";
+
+function createWrapper() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+}
 
 describe("usePosts", () => {
   it("fetches posts with default params", async () => {
@@ -742,8 +739,17 @@ describe("usePosts", () => {
 ```tsx
 import { describe, it, expect } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
-import { createWrapper } from "@/test/utils";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePost } from "./use-post";
+
+function createWrapper() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+}
 
 describe("usePost", () => {
   it("fetches a single post by id", async () => {
@@ -797,8 +803,16 @@ describe("usePost", () => {
 import { describe, it, expect, vi } from "vitest";
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createWrapper } from "@/test/utils";
 import { useCreatePost } from "./use-create-post";
+
+function createWrapper() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+}
 
 describe("useCreatePost", () => {
   it("creates a post and returns the new id", async () => {
@@ -852,8 +866,16 @@ describe("useCreatePost", () => {
 import { describe, it, expect, vi } from "vitest";
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createWrapper } from "@/test/utils";
 import { useDeletePost } from "./use-delete-post";
+
+function createWrapper() {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+}
 
 describe("useDeletePost", () => {
   it("deletes a post successfully", async () => {
@@ -941,7 +963,7 @@ describe("PostCard", () => {
 > `src/shared/ui/error-boundary.test.tsx`
 
 ```tsx
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ErrorBoundary } from "./error-boundary";
@@ -954,6 +976,10 @@ function ThrowingComponent({ shouldThrow }: { shouldThrow: boolean }) {
 describe("ErrorBoundary", () => {
   beforeEach(() => {
     vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("renders children when no error", () => {
@@ -1091,7 +1117,7 @@ describe("CreatePostForm", () => {
 
 ```tsx
 import { describe, it, expect, vi } from "vitest";
-import { renderWithProviders, screen, waitFor } from "@/test/utils";
+import { renderWithProviders, screen, waitFor, within } from "@/test/utils";
 import { DeletePostButton } from "./delete-post-button";
 
 describe("DeletePostButton", () => {
@@ -1122,8 +1148,11 @@ describe("DeletePostButton", () => {
       expect(screen.getByRole("alertdialog")).toBeInTheDocument();
     });
 
-    const dialogDeleteBtn = screen.getByRole("button", { name: /^delete$/i });
-    await user.click(dialogDeleteBtn);
+    // Click the "Delete" button inside the alert dialog
+    const { getByRole: getByRoleInDialog } = within(
+      screen.getByRole("alertdialog"),
+    );
+    await user.click(getByRoleInDialog("button", { name: /delete/i }));
 
     await waitFor(() => {
       expect(onSuccess).toHaveBeenCalled();
