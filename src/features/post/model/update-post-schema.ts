@@ -8,7 +8,7 @@ export const updatePostSchema = yup.object({
   content: yup
     .string()
     .required("Content is required"),
-  isPublished: yup.boolean().required().default(false),
+  isPublished: yup.boolean().default(false),
 });
 
 export type UpdatePostFormValues = yup.InferType<typeof updatePostSchema>;
