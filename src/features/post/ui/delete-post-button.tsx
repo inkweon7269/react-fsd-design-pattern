@@ -21,6 +21,7 @@ export function DeletePostButton({ postId, onSuccess }: DeletePostButtonProps) {
   const deletePost = useDeletePost();
 
   function handleDelete() {
+    if (deletePost.isPending) return;
     deletePost.mutate(postId, {
       onSuccess: () => {
         onSuccess?.();
