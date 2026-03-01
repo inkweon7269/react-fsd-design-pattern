@@ -89,7 +89,7 @@ pnpm add -D @types/js-cookie
 
 인증 관련 파일만 모은 트리입니다. 기존 CRUD 파일은 생략했습니다.
 
-```
+```text
 src/
 ├── app/
 │   └── router/
@@ -152,7 +152,7 @@ src/
 
 #### 흐름 1: 회원가입
 
-```
+```text
 [사용자]  →  RegisterForm  →  POST /auth/register  →  201 Created
                                                           │
                                                      /login 페이지로 이동
@@ -160,7 +160,7 @@ src/
 
 #### 흐름 2: 로그인
 
-```
+```text
 [사용자]  →  LoginForm  →  POST /auth/login  →  { accessToken, refreshToken }
                                                       │
                                                 tokenStorage.setTokens()
@@ -172,7 +172,7 @@ src/
 
 #### 흐름 3: 인증된 API 요청 (토큰 자동 첨부)
 
-```
+```text
 [컴포넌트]  →  apiClient("/posts")
                     │
               buildHeaders()
@@ -188,7 +188,7 @@ src/
 
 #### 흐름 4: 401 자동 갱신
 
-```
+```text
 [apiClient]  →  fetch("/posts")  →  401 Unauthorized
                                           │
                                     attemptTokenRefresh()
@@ -206,7 +206,7 @@ src/
 
 #### 흐름 5: 로그아웃
 
-```
+```text
 [Logout 버튼 클릭]  →  clearTokens()  →  invalidateQueries(session)  →  clear()
                                                                           │
                                                               모든 캐시 초기화
@@ -215,7 +215,7 @@ src/
 
 #### 흐름 6: 라우트 보호
 
-```
+```text
 [사용자가 /posts/create 접속]
          │
     beforeLoad: requireAuth()
@@ -571,7 +571,7 @@ async function attemptTokenRefresh(): Promise<boolean> {
 
 이 함수의 흐름을 따라가 봅니다:
 
-```
+```text
 attemptTokenRefresh() 호출
         │
         ├─ refreshPromise가 이미 있는가?
@@ -602,7 +602,7 @@ let refreshPromise: Promise<boolean> | null = null;
 
 왜 이 변수가 필요할까요? 페이지에 여러 API 호출이 동시에 실행될 수 있습니다:
 
-```
+```text
 [usePost()]     →  GET /posts/1   →  401
 [usePosts()]    →  GET /posts     →  401
                                         │
@@ -1364,7 +1364,7 @@ export type { LoginDto, RegisterDto, RegisterResponse } from "./model/types";
 
 전체 로그인 흐름을 레이어별로 따라가 봅니다:
 
-```
+```text
 [사용자가 이메일/비밀번호 입력 후 Login 클릭]
         │
         ▼
@@ -1650,7 +1650,7 @@ export function requireGuest() {
 
 라우트 가드 흐름을 다이어그램으로 보면:
 
-```
+```text
 [사용자가 URL 접근]
         │
         ▼
@@ -2024,7 +2024,7 @@ CRUD에는 없고 인증에서 새롭게 등장한 패턴들:
 
 FSD로 새 기능을 추가할 때의 사고 과정을 정리합니다:
 
-```
+```text
 1. "이 코드는 어느 레이어에 속하는가?"
 
    토큰 저장/읽기       → shared (인프라, 여러 레이어에서 사용)
