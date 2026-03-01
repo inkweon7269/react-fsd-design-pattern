@@ -88,7 +88,10 @@ export const handlers = [
     const body = (await request.json()) as { refreshToken: string };
     await delay(50);
 
-    if (body.refreshToken === "mock-refresh-token") {
+    if (
+      body.refreshToken === "mock-refresh-token" ||
+      body.refreshToken === "mock-refreshed-refresh-token"
+    ) {
       return HttpResponse.json({
         accessToken: "mock-refreshed-access-token",
         refreshToken: "mock-refreshed-refresh-token",

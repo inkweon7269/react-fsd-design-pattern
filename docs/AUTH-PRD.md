@@ -29,7 +29,7 @@ NestJS 백엔드에 구현된 JWT 기반 인증 API를 React FSD 프론트엔드
 
 ### 2.1 회원가입
 
-```
+```text
 POST /auth/register
 ```
 
@@ -47,7 +47,7 @@ POST /auth/register
 
 ### 2.2 로그인
 
-```
+```text
 POST /auth/login
 ```
 
@@ -60,7 +60,7 @@ POST /auth/login
 
 ### 2.3 토큰 갱신
 
-```
+```text
 POST /auth/refresh
 ```
 
@@ -198,7 +198,7 @@ POST /auth/refresh
 
 ## 5. FSD 아키텍처 매핑
 
-```
+```text
 app/          ← 라우트 가드, auth 라우트 등록
 pages/auth/   ← LoginPage, RegisterPage
 widgets/      ← Header (인증 상태 기반 UI 분기)
@@ -218,7 +218,7 @@ shared/       ← AuthTokens 타입, tokenStorage(쿠키), JWT 디코드, apiCli
 
 ### 6.1 회원가입 플로우
 
-```
+```text
 [Register 페이지] → 이름/이메일/비밀번호/확인 입력
     → [제출] → POST /auth/register
         → 성공(201): /login 페이지로 이동
@@ -228,7 +228,7 @@ shared/       ← AuthTokens 타입, tokenStorage(쿠키), JWT 디코드, apiCli
 
 ### 6.2 로그인 플로우
 
-```
+```text
 [Login 페이지] → 이메일/비밀번호 입력
     → [제출] → POST /auth/login
         → 성공(200): 토큰 쿠키 저장 → /posts로 이동 → 헤더 갱신
@@ -237,7 +237,7 @@ shared/       ← AuthTokens 타입, tokenStorage(쿠키), JWT 디코드, apiCli
 
 ### 6.3 토큰 갱신 플로우
 
-```
+```text
 [인증된 API 요청] → 401 응답 수신
     → POST /auth/refresh (refreshToken)
         → 성공(200): 새 토큰 쿠키 저장 → 원래 요청 재시도
@@ -246,7 +246,7 @@ shared/       ← AuthTokens 타입, tokenStorage(쿠키), JWT 디코드, apiCli
 
 ### 6.4 로그아웃 플로우
 
-```
+```text
 [Logout 버튼 클릭]
     → 쿠키 토큰 삭제 → 쿼리 캐시 초기화 → 헤더 비인증 상태 전환
 ```
@@ -260,6 +260,5 @@ shared/       ← AuthTokens 타입, tokenStorage(쿠키), JWT 디코드, apiCli
 | 빌드 성공 | `pnpm build` 타입 체크 + 빌드 에러 없음 |
 | 린트 통과 | `pnpm lint` 경고/에러 없음 |
 | 기존 테스트 통과 | `pnpm test:run` 기존 테스트 깨지지 않음 |
-| FSD 규칙 준수 | `/verify-fsd` 스킬 통과 |
 | FSD 규칙 준수 | `/verify-fsd` 스킬 통과 |
 | 수동 검증 | 회원가입 → 로그인 → 글 작성 → 로그아웃 시나리오 정상 동작 |

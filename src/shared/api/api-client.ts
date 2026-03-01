@@ -34,7 +34,10 @@ async function attemptTokenRefresh(): Promise<boolean> {
 
   refreshPromise = (async () => {
     const refreshToken = tokenStorage.getRefreshToken();
-    if (!refreshToken) return false;
+    if (!refreshToken) {
+      tokenStorage.clearTokens();
+      return false;
+    }
 
     try {
       const url = buildUrl("/auth/refresh");

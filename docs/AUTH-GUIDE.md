@@ -409,7 +409,10 @@ async function attemptTokenRefresh(): Promise<boolean> {
 
   refreshPromise = (async () => {
     const refreshToken = tokenStorage.getRefreshToken();
-    if (!refreshToken) return false;
+    if (!refreshToken) {
+      tokenStorage.clearTokens();
+      return false;
+    }
 
     try {
       const url = buildUrl("/auth/refresh");
@@ -533,7 +536,10 @@ async function attemptTokenRefresh(): Promise<boolean> {
 
   refreshPromise = (async () => {
     const refreshToken = tokenStorage.getRefreshToken();
-    if (!refreshToken) return false;
+    if (!refreshToken) {
+      tokenStorage.clearTokens();
+      return false;
+    }
 
     try {
       const url = buildUrl("/auth/refresh");
@@ -995,14 +1001,12 @@ export function useRegister() {
 import { useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { tokenStorage } from "@/shared/lib";
-import { sessionQueryKeys } from "@/entities/session";
 
 export function useLogout() {
   const queryClient = useQueryClient();
 
   const logout = useCallback(() => {
     tokenStorage.clearTokens();
-    queryClient.invalidateQueries({ queryKey: sessionQueryKeys.current() });
     queryClient.clear();
   }, [queryClient]);
 
@@ -1021,11 +1025,10 @@ export function useLogout() {
 
 로그아웃은 **서버 API를 호출하지 않습니다**. 쿠키 삭제와 캐시 초기화만으로 충분합니다. 서버 호출이 없으므로 `useMutation`의 비동기 상태 관리(`isPending`, `isError`)가 불필요합니다.
 
-`logout` 함수가 순서대로 수행하는 3가지:
+`logout` 함수가 순서대로 수행하는 2가지:
 
 1. `clearTokens()` — 쿠키에서 accessToken과 refreshToken을 삭제합니다.
-2. `invalidateQueries(sessionQueryKeys.current())` — 세션 캐시를 무효화합니다. `useSession()`이 다시 실행되어 `null`을 반환합니다.
-3. `queryClient.clear()` — **모든 캐시 데이터를 초기화**합니다. 로그아웃 후 다른 사용자가 로그인할 때 이전 사용자의 데이터가 보이는 것을 방지합니다.
+2. `queryClient.clear()` — **모든 캐시 데이터를 초기화**합니다. 로그아웃 후 다른 사용자가 로그인할 때 이전 사용자의 데이터가 보이는 것을 방지합니다. `clear()`는 모든 쿼리를 캐시에서 완전히 제거하므로, `invalidateQueries`를 별도로 호출할 필요가 없습니다.
 
 ### 4.8 로그인 폼 (`features/auth/ui/login-form.tsx`)
 
@@ -1966,7 +1969,6 @@ export function useLogout() {
 
   const logout = useCallback(() => {
     tokenStorage.clearTokens();
-    queryClient.invalidateQueries({ queryKey: sessionQueryKeys.current() });
     queryClient.clear();  // ← 모든 캐시를 비움 (postQueryKeys 포함)
   }, [queryClient]);
 
