@@ -9,9 +9,10 @@ pnpm dev          # Start Vite dev server (proxies /api → http://localhost:300
 pnpm build        # Type-check (tsc -b) then Vite build
 pnpm lint         # ESLint on all .ts/.tsx files
 pnpm preview      # Preview production build
+pnpm test:run      # Vitest 단위 테스트
+pnpm test:coverage # 커버리지 포함 테스트
+pnpm test:e2e      # Playwright E2E 테스트
 ```
-
-No test framework is configured.
 
 ## Architecture: Feature-Sliced Design (FSD)
 
@@ -60,3 +61,20 @@ Components install to `@/shared/ui` (not default `@/components/ui`). After addin
 ```bash
 npx shadcn@latest add <component-name>
 ```
+
+## Git Workflow
+
+- `feature/*` 브랜치 → `dev` 대상 **Squash and merge**
+- `dev` 브랜치 → `main` 대상 **Create a merge commit**
+- `main`/`master`에 직접 push 금지
+
+## Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `commit` | 검증 후 conventional commit (Korean) 생성 및 push |
+| `create-pr` | 브랜치 전략에 따른 PR 생성 |
+| `verify-fsd` | FSD 아키텍처 규칙 준수 검증 |
+| `verify-implementation` | 모든 verify 스킬 통합 실행 |
+| `manage-skills` | 세션 변경사항 분석 및 스킬 유지보수 |
+| `respond-coderabbit` | CodeRabbit 리뷰 코멘트 자동 분석 및 응답 |
