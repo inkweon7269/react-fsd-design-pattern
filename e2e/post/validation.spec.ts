@@ -1,6 +1,23 @@
 import { test, expect } from "@playwright/test";
+import {
+  clearAuthCookies,
+  loginAndWaitForRedirect,
+  registerUser,
+} from "../fixtures/auth";
 
 test.describe("Post form validation", () => {
+  test.beforeAll(async ({ browser }) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await registerUser(page);
+    await context.close();
+  });
+
+  test.beforeEach(async ({ page }) => {
+    await clearAuthCookies(page);
+    await loginAndWaitForRedirect(page);
+  });
+
   test("shows validation error when submitting empty form", async ({
     page,
   }) => {
@@ -22,9 +39,7 @@ test.describe("Post form validation", () => {
     await page.getByLabel(/content/i).fill("Some content");
     await page.getByRole("button", { name: /create post/i }).click();
 
-    await expect(
-      page.getByText(/200 characters or less/i),
-    ).toBeVisible();
+    await expect(page.getByText(/200 characters or less/i)).toBeVisible();
   });
 
   test("edit form is pre-filled with existing data", async ({ page }) => {
