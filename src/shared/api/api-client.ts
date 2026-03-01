@@ -8,7 +8,7 @@ type RequestOptions = {
   headers?: HeadersInit;
 };
 
-function buildUrl(path: string, params?: RequestOptions["params"]): string {
+export function buildUrl(path: string, params?: RequestOptions["params"]): string {
   const url = new URL(`${env.API_BASE_URL}${path}`, window.location.origin);
 
   if (params) {
