@@ -48,4 +48,59 @@ export const handlers = [
     await delay(50);
     return new HttpResponse(null, { status: 204 });
   }),
+
+  // Auth handlers
+  http.post(`${BASE_URL}/auth/register`, async ({ request }) => {
+    const body = (await request.json()) as { email: string };
+    await delay(50);
+
+    if (body.email === "existing@test.com") {
+      return HttpResponse.json(
+        { message: "Email already exists" },
+        { status: 409 },
+      );
+    }
+
+    return HttpResponse.json({ id: 1 }, { status: 201 });
+  }),
+
+  http.post(`${BASE_URL}/auth/login`, async ({ request }) => {
+    const body = (await request.json()) as {
+      email: string;
+      password: string;
+    };
+    await delay(50);
+
+    if (body.email === "test@test.com" && body.password === "password123") {
+      return HttpResponse.json({
+        accessToken: "mock-access-token",
+        refreshToken: "mock-refresh-token",
+      });
+    }
+
+    return HttpResponse.json(
+      { message: "Invalid credentials" },
+      { status: 401 },
+    );
+  }),
+
+  http.post(`${BASE_URL}/auth/refresh`, async ({ request }) => {
+    const body = (await request.json()) as { refreshToken: string };
+    await delay(50);
+
+    if (
+      body.refreshToken === "mock-refresh-token" ||
+      body.refreshToken === "mock-refreshed-refresh-token"
+    ) {
+      return HttpResponse.json({
+        accessToken: "mock-refreshed-access-token",
+        refreshToken: "mock-refreshed-refresh-token",
+      });
+    }
+
+    return HttpResponse.json(
+      { message: "Invalid refresh token" },
+      { status: 401 },
+    );
+  }),
 ];

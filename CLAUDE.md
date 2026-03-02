@@ -44,9 +44,12 @@ src/
 - **shadcn/ui** (New York style) — installed to `src/shared/ui/`, configured via `components.json`
 - **Tailwind CSS v4** — via `@tailwindcss/vite` plugin
 
-## Path Alias
+## Path Alias & Import Convention
 
 `@/` maps to `src/` (configured in both `vite.config.ts` and `tsconfig.json`).
+
+- **슬라이스 내부 import**: 상대 경로 사용 (e.g., `../model/types`, `../guards`)
+- **슬라이스 간 import**: `@/` alias 사용 (e.g., `@/entities/session`, `@/shared/ui`)
 
 ## API Setup
 
