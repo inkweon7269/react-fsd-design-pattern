@@ -6,7 +6,7 @@ export function RegisterPage() {
   const navigate = useNavigate();
 
   function handleSuccess() {
-    navigate({ to: "/login" });
+    navigate({ to: "/" });
   }
 
   return (
@@ -20,7 +20,7 @@ export function RegisterPage() {
           <p className="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link
-              to="/login"
+              to="/"
               className="font-medium underline underline-offset-4"
             >
               Login

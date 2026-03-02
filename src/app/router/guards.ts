@@ -3,7 +3,7 @@ import { tokenStorage } from "@/shared/lib";
 
 export function requireAuth() {
   if (!tokenStorage.isAuthenticated()) {
-    throw redirect({ to: "/login" });
+    throw redirect({ to: "/" });
   }
 }
 
