@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
@@ -57,6 +58,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
   }
 
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
@@ -134,5 +136,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         )}
       </form>
     </Form>
+    <DevTool control={form.control} />
+    </>
   );
 }
