@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
@@ -10,6 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDevTool,
 } from "@/shared/ui";
 import { ApiError } from "@/shared/api";
 import { loginSchema, type LoginFormValues } from "../model/login-schema";
@@ -95,7 +95,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         )}
       </form>
     </Form>
-    <DevTool control={form.control} />
+    <FormDevTool control={form.control} />
     </>
   );
 }

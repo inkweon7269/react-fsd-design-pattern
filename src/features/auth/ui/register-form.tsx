@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
@@ -10,6 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDevTool,
 } from "@/shared/ui";
 import { ApiError } from "@/shared/api";
 import {
@@ -136,7 +136,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         )}
       </form>
     </Form>
-    <DevTool control={form.control} />
+    <FormDevTool control={form.control} />
     </>
   );
 }

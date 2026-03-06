@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Button,
@@ -13,6 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDevTool,
 } from "@/shared/ui";
 import {
   updatePostSchema,
@@ -121,7 +121,7 @@ export function UpdatePostForm({
         )}
       </form>
     </Form>
-    <DevTool control={form.control} />
+    <FormDevTool control={form.control} />
     </>
   );
 }
