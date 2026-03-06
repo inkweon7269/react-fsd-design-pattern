@@ -20,7 +20,10 @@ export function useLogin() {
     onSuccess: (tokens) => {
       tokenStorage.setTokens(tokens);
       queryClient.invalidateQueries({ queryKey: sessionQueryKeys.current() });
-      queryClient.invalidateQueries({ queryKey: sessionQueryKeys.profile() });
+      queryClient.resetQueries({
+        queryKey: sessionQueryKeys.profile(),
+        exact: true,
+      });
     },
   });
 }
