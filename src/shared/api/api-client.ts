@@ -38,6 +38,7 @@ async function attemptTokenRefresh(): Promise<boolean> {
       tokenStorage.clearTokens();
       return false;
     }
+    const refreshTokenAtStart = refreshToken;
 
     try {
       const url = buildUrl("/auth/refresh");
@@ -48,15 +49,19 @@ async function attemptTokenRefresh(): Promise<boolean> {
       });
 
       if (!response.ok) {
-        tokenStorage.clearTokens();
+        if (response.status === 401) {
+          tokenStorage.clearTokens();
+        }
         return false;
       }
 
       const tokens: AuthTokens = await response.json();
+      if (tokenStorage.getRefreshToken() !== refreshTokenAtStart) {
+        return false;
+      }
       tokenStorage.setTokens(tokens);
       return true;
     } catch {
-      tokenStorage.clearTokens();
       return false;
     }
   })().finally(() => {
