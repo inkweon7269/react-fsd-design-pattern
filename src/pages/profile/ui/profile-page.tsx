@@ -32,7 +32,20 @@ export function ProfilePage() {
     );
   }
 
-  if (!profile) return null;
+  if (!profile) {
+    return (
+      <div className="container mx-auto max-w-3xl px-4 py-8 text-center">
+        <p className="text-muted-foreground">Profile not found.</p>
+        <Button
+          variant="outline"
+          className="mt-4"
+          onClick={() => navigate({ to: "/posts" })}
+        >
+          Back to Posts
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto max-w-3xl px-4 py-8">

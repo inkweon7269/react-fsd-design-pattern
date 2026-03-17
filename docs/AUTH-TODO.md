@@ -6,7 +6,7 @@
 
 - [ ] `src/shared/types/auth.ts` 생성
   - [ ] `AuthTokens` 인터페이스 (`accessToken`, `refreshToken`)
-  - [ ] `JwtPayload` 인터페이스 (`sub`, `email`, `iat`, `exp`)
+
 - [ ] `src/shared/types/index.ts` 수정 — auth 타입 re-export 추가
 
 ### 1.2 토큰 스토리지 유틸리티
@@ -19,13 +19,7 @@
   - [ ] `clearTokens()` — `Cookies.remove()`로 토큰 쌍 삭제
   - [ ] `isAuthenticated()` — accessToken 쿠키 존재 여부 반환
 
-### 1.3 JWT 디코딩 유틸리티
-
-- [ ] `src/shared/lib/jwt.ts` 생성
-  - [ ] `decodeJwtPayload(token)` — base64url 디코딩으로 페이로드 추출
-- [ ] `src/shared/lib/index.ts` 수정 — `tokenStorage`, `decodeJwtPayload` re-export
-
-### 1.4 API 클라이언트 인증 인터셉터
+### 1.3 API 클라이언트 인증 인터셉터
 
 - [ ] `src/shared/api/api-client.ts` 수정
   - [ ] Bearer 토큰 자동 첨부 로직 추가
@@ -217,7 +211,7 @@
 
 | 레이어 | 파일 |
 |---|---|
-| shared | `types/auth.ts`, `lib/token-storage.ts`, `lib/jwt.ts` |
+| shared | `types/auth.ts`, `lib/token-storage.ts` |
 | entities | `session/model/types.ts`, `session/api/session-query-keys.ts`, `session/api/session-api.ts`, `session/api/use-session.ts`, `session/index.ts` |
 | features | `auth/model/types.ts`, `auth/model/login-schema.ts`, `auth/model/register-schema.ts`, `auth/api/use-login.ts`, `auth/api/use-register.ts`, `auth/api/use-logout.ts`, `auth/ui/login-form.tsx`, `auth/ui/register-form.tsx`, `auth/ui/logout-button.tsx`, `auth/index.ts` |
 | pages | `auth/ui/login-page.tsx`, `auth/ui/register-page.tsx`, `auth/index.ts` |
@@ -228,7 +222,7 @@
 | 레이어 | 파일 | 변경 내용 |
 |---|---|---|
 | shared | `types/index.ts` | auth 타입 re-export |
-| shared | `lib/index.ts` | tokenStorage, jwt re-export |
+| shared | `lib/index.ts` | tokenStorage re-export |
 | shared | `api/api-client.ts` | 인증 인터셉터 추가 |
 | widgets | `header/ui/header.tsx` | 인증 상태 기반 UI 분기 |
 | app | `router/router.tsx` | auth 라우트 등록 |

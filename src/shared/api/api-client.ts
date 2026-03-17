@@ -111,7 +111,10 @@ export async function apiClient<T>(
 
   const response = await fetch(url, fetchOptions);
 
-  if (response.status === 401 && accessToken) {
+  const hasRefreshToken = Boolean(tokenStorage.getRefreshToken());
+  const isAuthEndpoint = path.startsWith("/auth/");
+
+  if (response.status === 401 && hasRefreshToken && !isAuthEndpoint) {
     const refreshed = await attemptTokenRefresh();
     if (refreshed) {
       const newToken = tokenStorage.getAccessToken();

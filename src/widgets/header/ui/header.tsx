@@ -15,25 +15,25 @@ export function Header() {
         <nav className="flex items-center gap-4">
           {session ? (
             <>
-              <Link to="/posts">
-                <Button variant="ghost">All Posts</Button>
-              </Link>
-              <Link to="/posts/create">
-                <Button>New Post</Button>
-              </Link>
-              <Link to="/profile">
-                <Button variant="ghost">Profile</Button>
-              </Link>
+              <Button asChild variant="ghost">
+                <Link to="/posts">All Posts</Link>
+              </Button>
+              <Button asChild>
+                <Link to="/posts/create">New Post</Link>
+              </Button>
+              <Button asChild variant="ghost">
+                <Link to="/profile">Profile</Link>
+              </Button>
               <LogoutButton />
             </>
           ) : (
             <>
-              <Link to="/">
-                <Button variant="ghost">Login</Button>
-              </Link>
-              <Link to="/register">
-                <Button>Register</Button>
-              </Link>
+              <Button asChild variant="ghost">
+                <Link to="/">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link to="/register">Register</Link>
+              </Button>
             </>
           )}
         </nav>

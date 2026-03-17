@@ -7,6 +7,8 @@ import {
 
 const BASE_URL = "*/api";
 
+const registeredEmails = new Set<string>();
+
 export const handlers = [
   http.get(`${BASE_URL}/posts`, async ({ request }) => {
     const url = new URL(request.url);
@@ -54,13 +56,14 @@ export const handlers = [
     const body = (await request.json()) as { email: string };
     await delay(50);
 
-    if (body.email === "existing@test.com") {
+    if (body.email === "existing@test.com" || registeredEmails.has(body.email)) {
       return HttpResponse.json(
         { message: "Email already exists" },
         { status: 409 },
       );
     }
 
+    registeredEmails.add(body.email);
     return HttpResponse.json({ id: 1 }, { status: 201 });
   }),
 
@@ -71,7 +74,7 @@ export const handlers = [
     };
     await delay(50);
 
-    if (body.email === "test@test.com" && body.password === "password123") {
+    if (body.email && body.password) {
       return HttpResponse.json({
         accessToken: "mock-access-token",
         refreshToken: "mock-refresh-token",

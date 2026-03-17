@@ -251,7 +251,9 @@ gh api "repos/{owner}/{repo}/pulls/{pr_number}/comments/{comment_id}/replies" \
 
 코드 수정이 있었고 푸시가 완료된 경우, CodeRabbit 재리뷰 대기 후 `/respond-coderabbit`을 다시 실행하도록 안내합니다.
 
-미처리 코멘트가 0개인 경우, PR 작성자에게 최종 확인을 태그합니다:
+미처리 코멘트가 0개인 경우, 완료 알림을 작성하기 전에 issue comments에 `<!-- claude-code-response:complete -->` 마커가 이미 있는지 확인합니다. 이미 존재하면 새 완료 댓글을 달지 않고 종료합니다.
+
+마커가 없는 경우에만 PR 작성자에게 최종 확인을 태그합니다:
 
 ```bash
 gh pr view {pr_number} --json author --jq '.author.login'
