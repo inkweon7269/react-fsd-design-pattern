@@ -1,8 +1,22 @@
 import { test, expect } from "@playwright/test";
-import { createPost, waitForPostDetail } from "./fixtures/test-base";
+import { createPost, waitForPostDetail } from "../fixtures/post";
+import {
+  clearAuthCookies,
+  loginAndWaitForRedirect,
+  registerUser,
+} from "../fixtures/auth";
 
 test.describe("Post CRUD flow", () => {
+  test.beforeAll(async ({ browser }) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await registerUser(page);
+    await context.close();
+  });
+
   test("create, read, update, and delete a post", async ({ page }) => {
+    await clearAuthCookies(page);
+    await loginAndWaitForRedirect(page);
     const testTitle = `E2E Test Post ${Date.now()}`;
     const testContent = "This is E2E test content for CRUD validation.";
 

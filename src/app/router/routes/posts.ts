@@ -5,12 +5,14 @@ import {
   PostCreatePage,
   PostEditPage,
 } from "@/pages/post";
+import { requireAuth } from "../guards";
 import type { rootRoute } from "../router";
 
 export const createPostRoutes = (root: typeof rootRoute) => {
   const postsRoute = createRoute({
     getParentRoute: () => root,
     path: "/posts",
+    beforeLoad: requireAuth,
   });
 
   const postsListRoute = createRoute({

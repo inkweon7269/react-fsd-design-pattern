@@ -12,6 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDevTool,
 } from "@/shared/ui";
 import {
   createPostSchema,
@@ -45,6 +46,7 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
   }
 
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
@@ -115,5 +117,7 @@ export function CreatePostForm({ onSuccess }: CreatePostFormProps) {
         )}
       </form>
     </Form>
+    <FormDevTool control={form.control} />
+    </>
   );
 }

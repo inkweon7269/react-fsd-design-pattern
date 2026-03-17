@@ -45,3 +45,17 @@ export function renderWithProviders(
 
 export { screen, waitFor, within, act } from "@testing-library/react";
 export { default as userEvent } from "@testing-library/user-event";
+
+// Auth test helpers
+import { tokenStorage } from "@/shared/lib";
+
+export function setupAuthenticatedUser() {
+  tokenStorage.setTokens({
+    accessToken: "mock-access-token",
+    refreshToken: "mock-refresh-token",
+  });
+}
+
+export function clearAuthenticatedUser() {
+  tokenStorage.clearTokens();
+}
