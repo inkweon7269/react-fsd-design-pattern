@@ -91,6 +91,20 @@ export const handlers = [
     );
   }),
 
+  http.post(`${BASE_URL}/auth/logout`, async ({ request }) => {
+    const authHeader = request.headers.get("Authorization");
+    await delay(50);
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return HttpResponse.json(
+        { message: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+
+    return new HttpResponse(null, { status: 204 });
+  }),
+
   http.post(`${BASE_URL}/auth/refresh`, async ({ request }) => {
     const body = (await request.json()) as { refreshToken: string };
     await delay(50);
