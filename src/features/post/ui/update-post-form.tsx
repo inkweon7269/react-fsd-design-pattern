@@ -12,6 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDevTool,
 } from "@/shared/ui";
 import {
   updatePostSchema,
@@ -49,6 +50,7 @@ export function UpdatePostForm({
   }
 
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
@@ -119,5 +121,7 @@ export function UpdatePostForm({
         )}
       </form>
     </Form>
+    <FormDevTool control={form.control} />
+    </>
   );
 }

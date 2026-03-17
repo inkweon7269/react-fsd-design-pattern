@@ -9,6 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDevTool,
 } from "@/shared/ui";
 import { ApiError } from "@/shared/api";
 import {
@@ -57,6 +58,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
   }
 
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
@@ -134,5 +136,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         )}
       </form>
     </Form>
+    <FormDevTool control={form.control} />
+    </>
   );
 }

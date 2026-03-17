@@ -1,5 +1,5 @@
-import { createRoute } from "@tanstack/react-router";
-import { LoginPage, RegisterPage } from "@/pages/auth";
+import { createRoute, redirect } from "@tanstack/react-router";
+import { RegisterPage } from "@/pages/auth";
 import { requireGuest } from "../guards";
 import type { rootRoute } from "../router";
 
@@ -7,8 +7,9 @@ export const createAuthRoutes = (root: typeof rootRoute) => {
   const loginRoute = createRoute({
     getParentRoute: () => root,
     path: "/login",
-    component: LoginPage,
-    beforeLoad: requireGuest,
+    beforeLoad: () => {
+      throw redirect({ to: "/" });
+    },
   });
 
   const registerRoute = createRoute({

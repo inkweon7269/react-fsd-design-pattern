@@ -21,11 +21,14 @@ export function Header() {
               <Link to="/posts/create">
                 <Button>New Post</Button>
               </Link>
+              <Link to="/profile">
+                <Button variant="ghost">Profile</Button>
+              </Link>
               <LogoutButton />
             </>
           ) : (
             <>
-              <Link to="/login">
+              <Link to="/">
                 <Button variant="ghost">Login</Button>
               </Link>
               <Link to="/register">

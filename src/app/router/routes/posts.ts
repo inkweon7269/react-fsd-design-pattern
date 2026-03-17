@@ -12,6 +12,7 @@ export const createPostRoutes = (root: typeof rootRoute) => {
   const postsRoute = createRoute({
     getParentRoute: () => root,
     path: "/posts",
+    beforeLoad: requireAuth,
   });
 
   const postsListRoute = createRoute({
@@ -24,7 +25,6 @@ export const createPostRoutes = (root: typeof rootRoute) => {
     getParentRoute: () => postsRoute,
     path: "/create",
     component: PostCreatePage,
-    beforeLoad: requireAuth,
   });
 
   const postDetailRoute = createRoute({
@@ -37,7 +37,6 @@ export const createPostRoutes = (root: typeof rootRoute) => {
     getParentRoute: () => postsRoute,
     path: "/$postId/edit",
     component: PostEditPage,
-    beforeLoad: requireAuth,
   });
 
   return postsRoute.addChildren([

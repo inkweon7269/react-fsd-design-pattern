@@ -9,6 +9,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDevTool,
 } from "@/shared/ui";
 import { ApiError } from "@/shared/api";
 import { loginSchema, type LoginFormValues } from "../model/login-schema";
@@ -48,6 +49,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   }
 
   return (
+    <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
@@ -93,5 +95,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         )}
       </form>
     </Form>
+    <FormDevTool control={form.control} />
+    </>
   );
 }

@@ -4,9 +4,12 @@ import {
   createRoute,
   redirect,
 } from "@tanstack/react-router";
+import { tokenStorage } from "@/shared/lib";
+import { LoginPage } from "@/pages/auth";
 import { RootLayout } from "../layouts/root-layout";
 import { createPostRoutes } from "./routes/posts";
 import { createAuthRoutes } from "./routes/auth";
+import { createProfileRoute } from "./routes/profile";
 
 export const rootRoute = createRootRoute({
   component: RootLayout,
@@ -15,17 +18,22 @@ export const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
+  component: LoginPage,
   beforeLoad: () => {
-    throw redirect({ to: "/login" });
+    if (tokenStorage.isAuthenticated()) {
+      throw redirect({ to: "/posts" });
+    }
   },
 });
 
 const [loginRoute, registerRoute] = createAuthRoutes(rootRoute);
+const profileRoute = createProfileRoute(rootRoute);
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   registerRoute,
+  profileRoute,
   createPostRoutes(rootRoute),
 ]);
 
