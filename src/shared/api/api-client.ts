@@ -117,7 +117,7 @@ export async function apiClient<T>(
   const response = await fetch(url, fetchOptions);
 
   const hasRefreshToken = Boolean(tokenStorage.getRefreshToken());
-  const SKIP_REFRESH_PATHS = ["/auth/login", "/auth/register", "/auth/refresh"];
+  const SKIP_REFRESH_PATHS = ["/auth/login", "/auth/register", "/auth/refresh", "/auth/logout"];
   const isAuthEndpoint = SKIP_REFRESH_PATHS.includes(path);
 
   if (response.status === 401 && hasRefreshToken && !isAuthEndpoint) {
