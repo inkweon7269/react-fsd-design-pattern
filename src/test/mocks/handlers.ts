@@ -9,6 +9,10 @@ const BASE_URL = "*/api";
 
 const registeredEmails = new Set<string>();
 
+export function resetRegisteredEmails() {
+  registeredEmails.clear();
+}
+
 export const handlers = [
   http.get(`${BASE_URL}/posts`, async ({ request }) => {
     const url = new URL(request.url);
