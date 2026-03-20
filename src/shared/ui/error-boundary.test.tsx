@@ -3,12 +3,23 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ErrorBoundary } from "./error-boundary";
+import type { FallbackProps } from "./error-boundary";
 
 function ThrowingComponent({ shouldThrow }: { shouldThrow: boolean }) {
   if (shouldThrow) {
     throw new Error("Test error message");
   }
   return <div>No error</div>;
+}
+
+function DefaultFallback({ error, resetErrorBoundary }: FallbackProps) {
+  return (
+    <div>
+      <h2>Something went wrong</h2>
+      <p>{error instanceof Error ? error.message : "Unknown error"}</p>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
+  );
 }
 
 describe("ErrorBoundary", () => {
@@ -20,9 +31,9 @@ describe("ErrorBoundary", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders default fallback UI when child throws", () => {
+  it("renders FallbackComponent when child throws", () => {
     render(
-      <ErrorBoundary>
+      <ErrorBoundary FallbackComponent={DefaultFallback}>
         <ThrowingComponent shouldThrow={true} />
       </ErrorBoundary>,
     );
@@ -34,7 +45,7 @@ describe("ErrorBoundary", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders custom fallback when provided", () => {
+  it("renders custom fallback JSX when provided", () => {
     render(
       <ErrorBoundary fallback={<div>Custom error UI</div>}>
         <ThrowingComponent shouldThrow={true} />
@@ -53,7 +64,7 @@ describe("ErrorBoundary", () => {
         fix: () => setShouldThrow(false),
       }));
       return (
-        <ErrorBoundary>
+        <ErrorBoundary FallbackComponent={DefaultFallback}>
           <ThrowingComponent shouldThrow={shouldThrow} />
         </ErrorBoundary>
       );

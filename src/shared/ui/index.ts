@@ -25,6 +25,7 @@ export {
   useFormField,
 } from "./form";
 export { ErrorBoundary } from "./error-boundary";
+export type { FallbackProps } from "./error-boundary";
 export { FormDevTool } from "./form-devtool";
 export {
   AlertDialog,
