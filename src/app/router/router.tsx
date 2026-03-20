@@ -10,6 +10,7 @@ import { RootLayout } from "../layouts/root-layout";
 import { createPostRoutes } from "./routes/posts";
 import { createAuthRoutes } from "./routes/auth";
 import { createProfileRoute } from "./routes/profile";
+import { createTestRoutes } from "./routes/test";
 
 export const rootRoute = createRootRoute({
   component: RootLayout,
@@ -28,12 +29,14 @@ const indexRoute = createRoute({
 
 const [loginRoute, registerRoute] = createAuthRoutes(rootRoute);
 const profileRoute = createProfileRoute(rootRoute);
+const testRoute = createTestRoutes(rootRoute);
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   registerRoute,
   profileRoute,
+  testRoute,
   createPostRoutes(rootRoute),
 ]);
 

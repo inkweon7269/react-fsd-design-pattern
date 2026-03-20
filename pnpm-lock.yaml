@@ -23,6 +23,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      create-slots:
+        specifier: ^0.6.1
+        version: 0.6.1(react@19.2.4)
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
@@ -2147,6 +2150,11 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  create-slots@0.6.1:
+    resolution: {integrity: sha512-JS42cy0izLxyzTApqazoPsRGnw+GnPF8sG4mWxI3RcSZu5qwZpAA+8jUXKBQdI5qL4p1zlod6nKdV6y9LeD8ww==}
+    peerDependencies:
+      react: ^16.0.0 || ^17 || ^18
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -5988,6 +5996,10 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
+
+  create-slots@0.6.1(react@19.2.4):
+    dependencies:
+      react: 19.2.4
 
   cross-spawn@7.0.6:
     dependencies:

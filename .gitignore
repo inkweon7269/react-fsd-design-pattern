@@ -27,6 +27,8 @@ dist-ssr
 test-results/
 playwright-report/
 coverage/
+traces/
+snapshots/
 
 # Claude Code
 .claude/
