@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import type { Control } from "react-hook-form";
+import type { Control, FieldValues } from "react-hook-form";
 
 const LazyDevTool = import.meta.env.DEV
   ? lazy(() =>
@@ -7,13 +7,12 @@ const LazyDevTool = import.meta.env.DEV
     )
   : null;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function FormDevTool({ control }: { control: Control<any> }) {
+export function FormDevTool<T extends FieldValues>({ control }: { control: Control<T> }) {
   if (!import.meta.env.DEV || !LazyDevTool) return null;
 
   return (
     <Suspense fallback={null}>
-      <LazyDevTool control={control} />
+      <LazyDevTool control={control as Control<FieldValues>} />
     </Suspense>
   );
 }
