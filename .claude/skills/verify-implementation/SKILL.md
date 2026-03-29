@@ -30,6 +30,7 @@ argument-hint: '[선택사항: 특정 verify 스킬 이름]'
 | # | 스킬 | 설명 |
 |---|------|------|
 | 1 | `verify-fsd` | FSD 아키텍처 규칙 준수 여부 검증 |
+| 2 | `verify-performance` | Chrome DevTools MCP 기반 성능 테스트, Lighthouse, 디버깅 |
 
 ## 워크플로우
 
