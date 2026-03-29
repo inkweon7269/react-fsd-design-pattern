@@ -11,7 +11,7 @@ const COOKIE_OPTIONS: Cookies.CookieAttributes = {
 };
 
 // 토큰 변경 구독자 목록
-// clearTokens() 호출 시 등록된 리스너에 알림 → auth-store가 isAuthenticated 상태를 동기화
+// clearTokens() 호출 시 등록된 리스너에 알림 → auth-store가 localStorage의 isAuthenticated를 false로 동기화
 type Listener = () => void;
 const listeners = new Set<Listener>();
 
