@@ -27,12 +27,6 @@ export function buildUrl(
   return url.toString();
 }
 
-let onAuthFailure: (() => void) | null = null;
-
-export function setOnAuthFailure(callback: () => void): void {
-  onAuthFailure = callback;
-}
-
 let refreshPromise: Promise<boolean> | null = null;
 
 async function attemptTokenRefresh(): Promise<boolean> {
@@ -42,7 +36,7 @@ async function attemptTokenRefresh(): Promise<boolean> {
     const refreshToken = tokenStorage.getRefreshToken();
     if (!refreshToken) {
       tokenStorage.clearTokens();
-      onAuthFailure?.();
+
       return false;
     }
     const refreshTokenAtStart = refreshToken;
@@ -58,7 +52,6 @@ async function attemptTokenRefresh(): Promise<boolean> {
       if (!response.ok) {
         if (response.status === 401) {
           tokenStorage.clearTokens();
-          onAuthFailure?.();
         }
         return false;
       }
@@ -125,7 +118,12 @@ export async function apiClient<T>(
   const response = await fetch(url, fetchOptions);
 
   const hasRefreshToken = Boolean(tokenStorage.getRefreshToken());
-  const SKIP_REFRESH_PATHS = ["/auth/login", "/auth/register", "/auth/refresh", "/auth/logout"];
+  const SKIP_REFRESH_PATHS = [
+    "/auth/login",
+    "/auth/register",
+    "/auth/refresh",
+    "/auth/logout",
+  ];
   const isAuthEndpoint = SKIP_REFRESH_PATHS.includes(path);
 
   if (response.status === 401 && hasRefreshToken && !isAuthEndpoint) {

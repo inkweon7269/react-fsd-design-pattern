@@ -1,2 +1,2 @@
-export { apiClient, setOnAuthFailure } from "./api-client";
+export { apiClient } from "./api-client";
 export { ApiError } from "./api-error";

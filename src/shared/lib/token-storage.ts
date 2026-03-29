@@ -10,6 +10,11 @@ const COOKIE_OPTIONS: Cookies.CookieAttributes = {
   secure: window.location.protocol === "https:",
 };
 
+// 토큰 변경 구독자 목록
+// clearTokens() 호출 시 등록된 리스너에 알림 → auth-store가 isAuthenticated 상태를 동기화
+type Listener = () => void;
+const listeners = new Set<Listener>();
+
 export const tokenStorage = {
   getAccessToken(): string | null {
     return Cookies.get(ACCESS_TOKEN_KEY) ?? null;
@@ -27,9 +32,15 @@ export const tokenStorage = {
   clearTokens(): void {
     Cookies.remove(ACCESS_TOKEN_KEY, { path: "/" });
     Cookies.remove(REFRESH_TOKEN_KEY, { path: "/" });
+    listeners.forEach((fn) => fn()); // 구독자에게 토큰 삭제 알림
   },
 
   isAuthenticated(): boolean {
     return !!Cookies.get(ACCESS_TOKEN_KEY);
+  },
+
+  subscribe(fn: Listener): () => void {
+    listeners.add(fn);
+    return () => listeners.delete(fn);
   },
 };
