@@ -88,6 +88,7 @@ npx shadcn@latest add <component-name>
 | `commit` | 검증 후 conventional commit (Korean) 생성 및 push |
 | `create-pr` | 브랜치 전략에 따른 PR 생성 |
 | `verify-fsd` | FSD 아키텍처 규칙 준수 검증 |
+| `verify-performance` | Chrome DevTools MCP 기반 성능 테스트, Lighthouse, 디버깅 |
 | `verify-implementation` | 모든 verify 스킬 통합 실행 |
 | `manage-skills` | 세션 변경사항 분석 및 스킬 유지보수 |
 | `respond-coderabbit` | CodeRabbit 리뷰 코멘트 자동 분석 및 응답 |
