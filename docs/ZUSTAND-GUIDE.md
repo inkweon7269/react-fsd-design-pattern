@@ -100,7 +100,7 @@ function Counter() {
 
 FSD에서 Zustand 스토어는 각 슬라이스의 `model/` 세그먼트에 위치합니다.
 
-```
+```text
 src/
 ├── entities/
 │   └── session/
@@ -116,7 +116,7 @@ src/
 
 **FSD import 규칙 복습:**
 
-```
+```text
 shared ← entities ← features ← widgets ← pages ← app
 (왼쪽을 오른쪽에서 import 가능. 반대는 불가.)
 ```
