@@ -1,10 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/shared/ui";
-import { useSession } from "@/entities/session";
+import { useAuthStore } from "@/entities/session";
 import { LogoutButton } from "@/features/auth";
 
 export function Header() {
-  const { data: session } = useSession();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   return (
     <header className="border-b">
@@ -13,7 +13,7 @@ export function Header() {
           Posts App
         </Link>
         <nav className="flex items-center gap-4">
-          {session ? (
+          {isAuthenticated ? (
             <>
               <Button asChild variant="ghost">
                 <Link to="/posts">All Posts</Link>
