@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/shared/api";
-import { tokenStorage } from "@/shared/lib";
-import { sessionQueryKeys } from "@/entities/session";
+import { sessionQueryKeys, useAuthStore } from "@/entities/session";
 import type { AuthTokens } from "@/shared/types";
 import type { LoginDto } from "../model/types";
 
@@ -18,7 +17,7 @@ export function useLogin() {
   return useMutation({
     mutationFn: login,
     onSuccess: (tokens) => {
-      tokenStorage.setTokens(tokens);
+      useAuthStore.getState().login(tokens);
       queryClient.invalidateQueries({ queryKey: sessionQueryKeys.current() });
       queryClient.resetQueries({
         queryKey: sessionQueryKeys.profile(),

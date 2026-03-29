@@ -40,9 +40,19 @@ src/
 - **React 19** + **TypeScript 5.9** + **Vite 7**
 - **TanStack Router** — route-based code splitting, type-safe `$param` syntax
 - **TanStack Query** — server state with query key factory pattern (`postQueryKeys`)
+- **Zustand** — client state (`entities/*/model/*-store.ts`). 서버 상태는 반드시 TanStack Query에 유지
 - **react-hook-form** + **yup** — form validation (schemas in `features/*/model/`)
 - **shadcn/ui** (New York style) — installed to `src/shared/ui/`, configured via `components.json`
 - **Tailwind CSS v4** — via `@tailwindcss/vite` plugin
+
+## State Management
+
+- **서버 상태** → TanStack Query (posts, profile, session API 데이터)
+- **클라이언트 상태** → Zustand (인증 여부 등 브라우저 전용 상태)
+- **인증 토큰** → 쿠키 (`shared/lib/token-storage.ts`). Zustand에 토큰 문자열 저장 금지
+- **폼 상태** → React Hook Form
+
+Auth Store (`entities/session/model/auth-store.ts`)가 `tokenStorage`에 위임하여 쿠키와 `isAuthenticated` 상태를 동기화한다. `shared/api/api-client.ts`는 FSD 규칙상 `tokenStorage`를 직접 사용한다 (shared → entities import 불가).
 
 ## Path Alias & Import Convention
 
