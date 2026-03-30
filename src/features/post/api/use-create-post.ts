@@ -7,6 +7,7 @@ function createPost(dto: CreatePostDto): Promise<CreatePostResponse> {
   return apiClient<CreatePostResponse>("/posts", {
     method: "POST",
     body: dto,
+    headers: { "Idempotency-Key": crypto.randomUUID() },
   });
 }
 
