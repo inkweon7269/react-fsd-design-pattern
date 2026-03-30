@@ -32,5 +32,6 @@ snapshots/
 
 # Claude Code
 .claude/
+!.claude/skills/
 .mcp.json
 skills-lock.json
